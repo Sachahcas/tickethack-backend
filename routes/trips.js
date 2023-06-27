@@ -27,7 +27,7 @@ router.post("/", (req, res) => {
             if (!trips){
                 res.json({result : false, error : 'No trips available'})
             } else {
-                res.json({result : true, trips })
+                res.json({result : true, trips, time:moment(trips.date).format('LT')})
             }
         })
     }
