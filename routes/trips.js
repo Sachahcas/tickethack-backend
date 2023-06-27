@@ -2,12 +2,7 @@ var express = require('express');
 const Trip = require('../models/trips');
 var router = express.Router();
 const moment = require('moment')
-
-
-const date = moment("2044-07-12")
-const date2 = moment("2023-06-27T08:46:29.809Z")
-console.log(date)
-console.log(date2)
+const { checkBody } = require('../modules/checkBody');
 
 
 
@@ -16,21 +11,29 @@ router.get("/all", (req, res) => {
 })
 
 
-
-
-
 //FIXME : TIMEZONE IS FUCKED UP
-router.get("/", (req, res) => {
+router.post("/", (req, res) => {
+    if (!checkBody(req.body, ["departure","arrival","date"])){
+        res.json({result : false, error :  'Missing or empty fields' })
+    } else {
+        const { date, arrival, departure } = req.body
 
-    
-    const fixedDate = moment(req.body.date);
-    const startDate = fixedDate.startOf('day').toDate();
-    const endDate = fixedDate.endOf('day').toDate();
+        const fixedDate = moment(date);
+        const startDate = fixedDate.startOf('day').toDate();
+        const endDate = fixedDate.endOf('day').toDate();
 
-    Trip.find({ date: { $gte: startDate, $lte: endDate } }).then(dbData => {
-        res.json({ tripsNumber : dbData.length, dbData })
-    })
+        Trip.find({ date: { $gte: startDate, $lte: endDate }, arrival, departure }).then(trips => {
+            console.log(trips)
+            if (!trips){
+                res.json({result : false, error : 'No trips available'})
+            } else {
+                res.json({result : true, trips })
+            }
+        })
+    }
 })
+
+
 
 
 
