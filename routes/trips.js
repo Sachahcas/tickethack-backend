@@ -7,6 +7,7 @@ router.get("/all", (req, res) => {
     Trip.find().then((allTrips) => res.json({ result : true, allTrips }))
 })
 
+//fixme date doesn't work properly
 router.get("/", (req, res) => {
     const { departure, arrival, date, price } = req.body
     Trip.find({departure : req.body.departure , arrival : req.body.arrival}).then(dbData => {
