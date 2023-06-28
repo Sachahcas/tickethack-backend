@@ -11,6 +11,7 @@ var cartsRouter = require("./routes/carts")
 var indexRouter = require("./routes/index")
 var usersRouter = require("./routes/users") // Ajouter si vous voulez créer un nouveau fichier de route
 var tripsRouter = require("./routes/trips") // à checker si ça fonctionne
+var bookingsRouter = require("./routes/bookings")
 
 
 
@@ -29,6 +30,7 @@ app.use("/", indexRouter)
 app.use("/users", usersRouter) // Ajouter si vous voulez créer un nouveau fichier de route
 app.use("/trips", tripsRouter) // à checker si ça marche
 app.use("/carts", cartsRouter)
+app.use("/bookings", bookingsRouter)
 
 module.exports = app
 
