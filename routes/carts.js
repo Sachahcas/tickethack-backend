@@ -22,17 +22,11 @@ router.post("/", (req, res) => {
     })
 })
 
-router.delete("/", (req, res) => {
 
-    Cart.findOne(req.body).then((tripFound) => {
-        if (!tripFound) {
-            return res.json({ result: false, error: "Trip not found" })
-        } else {
-            Cart.deleteOne(req.body).then((tripDeleted) => {
-                return res.json({ result: true, tripDeleted })
-            })
-        }
-    })
+router.delete('/:id', function(req, res) {
+    Cart.deleteOne({_id:req.params.id}).then(tripDeleted => {
+        res.json({result: true, tripDeleted})
+    })  
 })
 
 router.delete("/all", (req,res) => {
