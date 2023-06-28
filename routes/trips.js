@@ -21,7 +21,6 @@ router.post("/", (req, res) => {
         const endDate = fixedDate.endOf('day').toDate();
 
         Trip.find({ date: { $gte: startDate, $lte: endDate }, arrival, departure }).then(tripsData => {
-            console.log(tripsData)
             if (!tripsData){
                 res.json({result : false, error : 'No trips available'})
             } else {
